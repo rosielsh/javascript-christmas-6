@@ -30,8 +30,8 @@ class Event {
       this.#benefits["weekend"] = this.#applyWeekEndEvent();
     }
 
-    this.#benefits["special"] = this.#applySpecialEvent();
-    this.#benefits["gift"] = this.#applyGiftEvent();
+    this.#benefits["special"] = this.#applySpecialEvent() || 0;
+    this.#benefits["gift"] = this.#applyGiftEvent() || 0;
   }
 
   #applayChristmasEvent() {
@@ -78,20 +78,29 @@ class Event {
     let totalBenefit = 0;
 
     for (let price of Object.values(this.#benefits)) {
-      totalBenefit + price;
+      totalBenefit += price;
     }
 
     return totalBenefit;
   }
 
+  #getBadge(totalBenefit) {
+    if (totalBenefit >= 20000) return "산타";
+    else if (totalBenefit >= 10000) return "트리";
+    else if (totalBenefit >= 5000) return "별";
+    return "없음";
+  }
+
   getEventInfo() {
     const totalBenefit = this.#calculateTotalBenefit();
+    const badge = this.#getBadge(totalBenefit);
 
     return {
       totalPrice: this.#totalPrice,
       benefits: this.#benefits,
       totalBenefit: totalBenefit,
-      finalPay: this.#totalPrice - totalBenefit,
+      finalPay: this.#totalPrice - totalBenefit + (this.#benefits["gift"] ? 25000 : 0),
+      badge: badge,
     };
   }
 }
