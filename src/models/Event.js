@@ -74,10 +74,24 @@ class Event {
     return this.#date % 7 > 2;
   }
 
+  #calculateTotalBenefit() {
+    let totalBenefit = 0;
+
+    for (let price of Object.values(this.#benefits)) {
+      totalBenefit + price;
+    }
+
+    return totalBenefit;
+  }
+
   getEventInfo() {
+    const totalBenefit = this.#calculateTotalBenefit();
+
     return {
       totalPrice: this.#totalPrice,
       benefits: this.#benefits,
+      totalBenefit: totalBenefit,
+      finalPay: this.#totalPrice - totalBenefit,
     };
   }
 }
