@@ -4,11 +4,13 @@ class Event {
   #date;
   #menus;
   #totalPrice;
+  #benefits;
 
   constructor(date, menus) {
     this.#date = date;
     this.#menus = menus;
     this.#totalPrice = 0;
+    this.#benefits = {};
   }
 
   calculateEvent() {
@@ -17,12 +19,20 @@ class Event {
     }
 
     if (this.#totalPrice < 10000) return;
+
+    this.#benefits["christmas"] = this.#applayChristmasEvent();
+  }
+
+  #applayChristmasEvent() {
+    if (this.#date > 25) return 0;
+
+    return 1000 + (this.#date - 1) * 100;
   }
 
   getEventInfo() {
     return {
       totalPrice: this.#totalPrice,
-      benefits: [],
+      benefits: this.#benefits,
     };
   }
 }
